@@ -1,5 +1,7 @@
 import os
+import asyncio
 from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -8,16 +10,18 @@ SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 if not SQLALCHEMY_DATABASE_URL:
     raise ValueError("DATABASE_URL is not set")
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# Створюємо асинхронний механізм
+async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL, future=True, echo=True)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Створюємо фабрику асинхронних сесій
+async_session = sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession, future=True)
 
 Base = declarative_base()
 
+# Вивід повідомлення про успішне підключення
+async def main():
+    async with async_engine.connect() as conn:
+        print("Connected to database successfully.")
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# Запускаємо main() асинхронно
+asyncio.run(main())

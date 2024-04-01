@@ -1,10 +1,11 @@
 FROM python:3.11
 
-COPY ./requirements.txt /src/requirements.txt
-RUN pip install --no-cache-dir -r /src/requirements.txt
+WORKDIR /src/app
 
-COPY ./src /app
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-WORKDIR /src
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+COPY ./src app

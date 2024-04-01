@@ -4,9 +4,9 @@ services:
   web:
     container_name: trade_app
     build: .
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0'
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn src.main:app --host 0.0.0.0 --port 8000'
     volumes:
-      - .:/src
+      - .:/src/app
     ports:
       - 8000:8000
     environment:

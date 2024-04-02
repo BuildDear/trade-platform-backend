@@ -1,7 +1,6 @@
 import os
 import asyncio
-from sqlalchemy import create_engine
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -14,7 +13,7 @@ if not SQLALCHEMY_DATABASE_URL:
 async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL, future=True, echo=True)
 
 # Створюємо фабрику асинхронних сесій
-async_session = sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession, future=True)
+async_session = async_sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession, future=True)
 
 Base = declarative_base()
 

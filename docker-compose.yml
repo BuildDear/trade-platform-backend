@@ -4,7 +4,7 @@ services:
   web:
     container_name: trade_app
     build: .
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn src.main:app --host 0.0.0.0 --port 8000'
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 5; done; uvicorn src.main:app --host 0.0.0.0 --port 8000'
     volumes:
       - .:/src/app
     ports:
@@ -16,18 +16,24 @@ services:
     restart: always
     env_file:
       - .env
+    networks:
+      app1_net:
+        ipv4_address: 192.168.0.4
 
   db:
     container_name: trade_postgres
-    image: postgres:15-alpine
+    image: postgres:15
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    expose:
-      - 5432
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      app1_net:
+        ipv4_address: 192.168.0.2
 
   pgadmin:
     container_name: pgadmin4_container
@@ -41,7 +47,17 @@ services:
       - .env
     depends_on:
       - db
-
+    networks:
+      app1_net:
+        ipv4_address: 192.168.0.3
 
 volumes:
   postgres_data:
+
+networks:
+  app1_net:
+    ipam:
+      driver: default
+      config:
+      - subnet: "192.168.0.0/24"  #ipv4
+        gateway: 192.168.0.1

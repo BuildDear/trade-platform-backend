@@ -14,5 +14,3 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", reload=True)

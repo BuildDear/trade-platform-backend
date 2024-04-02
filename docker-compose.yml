@@ -41,9 +41,7 @@ services:
       - .env
     depends_on:
       - db
-    networks:
-      app1_net:
-        ipv4_address: 192.168.0.3
+
 
 volumes:
   postgres_data:

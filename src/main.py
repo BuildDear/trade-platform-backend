@@ -1,5 +1,4 @@
 from contextlib import asynccontextmanager
-import uvicorn
 from fastapi import FastAPI
 from src.database import db_helper, Base
 

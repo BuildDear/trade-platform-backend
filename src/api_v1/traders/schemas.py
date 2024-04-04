@@ -1,10 +1,16 @@
 from pydantic import BaseModel
-from sqlalchemy.orm import Mapped
 
 
-
-class Trader(BaseModel):
+class TraderBase(BaseModel):
     email: str
     password: str
     name: str
     surname: str
+
+
+class TraderCreate(TraderBase):
+    pass
+
+
+class Trader(TraderBase):
+    id: int

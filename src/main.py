@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from src.database import db_helper, Base
+
+from src.core import db_helper, Base
 
 
 @asynccontextmanager

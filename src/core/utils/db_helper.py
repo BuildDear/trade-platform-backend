@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     async_scoped_session
 )
-from src.core.config import settings
+from src.core.utils.config import settings
 
 
 # Клас DatabaseHelper створює асинхронний двигун SQLAlchemy та фабрику сесій

@@ -2,7 +2,7 @@ __all__ = (
     "Base",
     "DatabaseHelper",
     "db_helper",
-    "Trader"
+    "Trader",
 )
 
 from .models.base_model import Base
